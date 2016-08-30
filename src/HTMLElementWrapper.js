@@ -1,8 +1,8 @@
 // @flow
 
-"use strict";
+'use strict';
 
-import {SPACE} from "jsz-string";
+import {SPACE} from 'jsz-string';
 
 const htmlElementProto = HTMLElement.prototype;
 
@@ -31,10 +31,10 @@ export default class HTMLElementWrapper {
 
   onClick(listener: ?Function, useCapture: boolean = false) {
     if (listener == null) {
-      throw new Error("Listener ist not defined!");
+      throw new Error('Listener ist not defined!');
     } else {
       this._apply(htmlElementProto.addEventListener,
-          ["click", listener, useCapture]);
+          ['click', listener, useCapture]);
     }
   }
 
@@ -51,7 +51,7 @@ export default class HTMLElementWrapper {
 
   setCssClass(...cssClasses: Array<string>) {
     return this._apply(
-        htmlElementProto.setAttribute,["class", cssClasses.join(SPACE)]);
+        htmlElementProto.setAttribute,['class', cssClasses.join(SPACE)]);
   }
 
   addCssClass(...cssClasses: Array<string>) {
@@ -70,7 +70,7 @@ export default class HTMLElementWrapper {
 
   getCssClasses() {
     let cssClasses = this._apply(
-        htmlElementProto.getAttribute, ["class"]);
+        htmlElementProto.getAttribute, ['class']);
     return cssClasses ? cssClasses.split(SPACE) : [];
   }
 
@@ -84,5 +84,15 @@ export default class HTMLElementWrapper {
     }
 
     return result;
+  }
+
+  get innerHTML(): ?string {
+    return this.element == null ? null : this.element.innerHTML;
+  }
+
+  set innerHTML(html: ?string) {
+    if (this.element != null && html != null) {
+      this.element.innerHTML = html;
+    }
   }
 }

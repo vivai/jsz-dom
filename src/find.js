@@ -1,8 +1,8 @@
 // @flow
 
-"use strict";
+'use strict';
 
-import HTMLElementWrapper from "./HTMLElementWrapper";
+import HTMLElementWrapper from './HTMLElementWrapper';
 
 export let getElement =
   (selectors: string,
