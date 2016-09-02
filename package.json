@@ -1,6 +1,6 @@
 {
   "name": "jsz-dom",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "Module for working with the DOM.",
   "keywords": "ECMAScript2015 ES6 flow dom",
   "author": "Marcus Kruse",

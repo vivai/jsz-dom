@@ -74,6 +74,16 @@ export default class HTMLElementWrapper {
     return cssClasses ? cssClasses.split(SPACE) : [];
   }
 
+  disable() {
+    return this._apply(
+        htmlElementProto.setAttribute, ['disabled', true]);
+  }
+
+  enable() {
+    return this._apply(
+        htmlElementProto.removeAttribute, ['disabled']);
+  }
+
   equals(htmlElement: HTMLElement|HTMLElementWrapper) {
     let result = false;
 
@@ -93,6 +103,23 @@ export default class HTMLElementWrapper {
   set innerHTML(html: ?string) {
     if (this.element != null && html != null) {
       this.element.innerHTML = html;
+    }
+  }
+
+  get value(): ?string {
+    let value = null;
+    if (this.element != null && this.element instanceof HTMLInputElement) {
+      value = this.element.value;
+    }
+
+    return value;
+  }
+
+  set value(value: ?string) {
+    if (this.element != null
+        && this.element instanceof HTMLInputElement
+        && value != null) {
+      this.element.value = value;
     }
   }
 }

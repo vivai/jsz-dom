@@ -14,6 +14,7 @@ test('dom tests', function(t) {
       "<div id='test'>" +
       "<div id='div1' title='div1'></div>" +
       "<div title='div2' class='foo'>foo</div>" +
+      '<input id="input"/>'+
       '</div>');
 
   t.ok(typeof dom.getElement === 'function',
@@ -44,6 +45,23 @@ test('dom tests', function(t) {
 
   t.equal(htmlElementDiv2.innerHTML, 'bar',
       'htmlElementDiv2.innerHTML === "bar"');
+
+  let input = dom.getElementById('input');
+
+  if (input.element instanceof HTMLInputElement) {
+    input.element.value = '42';
+    t.equal(input.value, '42', 'input value === 42');
+
+    if (input.element != null) {
+      let inputElement:HTMLElement = input.element;
+
+      input.disable();
+      t.true(inputElement.getAttribute('disabled'), 'is disabled');
+
+      input.enable();
+      t.false(inputElement.getAttribute('disabled'), 'is disabled');
+    }
+  }
 
   document.body.removeChild(document.getElementById('test'));
 
