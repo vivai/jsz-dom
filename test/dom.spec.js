@@ -17,50 +17,68 @@ test('dom tests', function(t) {
       '<input id="input"/>'+
       '</div>');
 
-  t.ok(typeof dom.getElement === 'function',
-      'Function getElement is imported.');
+  t.ok(typeof dom.getById === 'function',
+      'Function getById is imported.');
+  t.ok(typeof dom.getByQuery === 'function',
+      'Function getByQuery is imported.');
+  t.ok(typeof dom.getAllByQuery === 'function',
+      'Function getAllByQuery is imported.');
+  t.ok(typeof dom.getByClass === 'function',
+      'Function getByClass is imported.');
+  t.ok(typeof dom.getAllByClass === 'function',
+      'Function getAllByClass is imported.');
 
-  let htmlElementById = dom.getElementById('div1');
-  let htmlElementNone = dom.getElementById('noId');
-  let htmlElementDiv2 = dom.getElement('div.foo');
-  let htmlElementDivs = dom.getAllElements('div');
+  let byId = dom.getById('div1');
+  let none = dom.getById('noId');
+  let div2 = dom.getByQuery('div.foo');
+  let divs = dom.getAllByQuery('div');
+  let byClass = dom.getByClass('foo');
+  let allByClass = dom.getAllByClass('foo');
 
-  t.true(htmlElementById.isDefined(), 'htmlElementById.isDefined() === true');
-  t.false(htmlElementById.isEmpty(), 'htmlElementById.isEmpty() === false');
+  t.true(byId.isDefined(), 'byId.isDefined() === true');
+  t.false(byId.isEmpty(), 'byId.isEmpty() === false');
 
-  t.false(htmlElementNone.isDefined(), 'htmlElementNone.isDefined() === false');
-  t.true(htmlElementNone.isEmpty(), 'htmlElementNone.isEmpty() === true');
+  t.false(none.isDefined(), 'none.isDefined() === false');
+  t.true(none.isEmpty(), 'none.isEmpty() === true');
 
-  t.true(htmlElementDiv2.isDefined(),
-      'htmlElementDiv2.isDefined() === true');
-  t.false(htmlElementDiv2.isEmpty(),
-      'htmlElementDiv2.isEmpty() === false');
+  t.true(div2.isDefined(), 'div2.isDefined() === true');
+  t.false(div2.isEmpty(), 'div2.isEmpty() === false');
 
-  t.equal(htmlElementDivs.length, 3, 'htmlElementDivs.length === 2');
+  t.true(byClass.isDefined(), 'byClass is defined');
 
-  t.equal(htmlElementDiv2.innerHTML, 'foo',
-      'htmlElementDiv2.innerHTML === "foo"');
+  t.equal(divs.length, 3, 'divs.length === 2');
 
-  htmlElementDiv2.innerHTML = 'bar';
+  t.equal(div2.innerHTML, 'foo', 'div2.innerHTML === "foo"');
 
-  t.equal(htmlElementDiv2.innerHTML, 'bar',
-      'htmlElementDiv2.innerHTML === "bar"');
+  div2.innerHTML = 'bar';
 
-  let input = dom.getElementById('input');
+  t.equal(div2.innerHTML, 'bar', 'div2.innerHTML === "bar"');
+
+  t.true(div2.equals(byClass),'di2,equals(byClass)');
+  t.true(div2.equals(allByClass[0]),'di2,equals(allByClass[0])');
+
+  let input = dom.getInputById('input');
+
+  t.equal(input.value, '', 'input value === ""');
 
   if (input.element instanceof HTMLInputElement) {
     input.element.value = '42';
-    t.equal(input.value, '42', 'input value === 42');
+  } else {
+    t.fail('input.element is not an instance of HTMLInputElement');
+  }
 
-    if (input.element != null) {
-      let inputElement:HTMLElement = input.element;
+  t.equal(input.value, '42', 'input value === 42');
 
-      input.disable();
-      t.true(inputElement.getAttribute('disabled'), 'is disabled');
 
-      input.enable();
-      t.false(inputElement.getAttribute('disabled'), 'is disabled');
-    }
+  input.disable();
+
+  if (input.element instanceof HTMLInputElement) {
+    t.true(input.element.getAttribute('disabled'), 'is disabled');
+  }
+
+  input.enable();
+  if (input.element instanceof HTMLInputElement) {
+    t.false(input.element.getAttribute('disabled'), 'is disabled');
   }
 
   document.body.removeChild(document.getElementById('test'));

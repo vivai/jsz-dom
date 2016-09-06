@@ -21,6 +21,10 @@ export default class HTMLElementWrapper {
     return result;
   }
 
+  get(): ?HTMLElement {
+    return this.element;
+  }
+
   isDefined() {
     return this.element != null;
   }
@@ -106,20 +110,5 @@ export default class HTMLElementWrapper {
     }
   }
 
-  get value(): ?string {
-    let value = null;
-    if (this.element != null && this.element instanceof HTMLInputElement) {
-      value = this.element.value;
-    }
-
-    return value;
-  }
-
-  set value(value: ?string) {
-    if (this.element != null
-        && this.element instanceof HTMLInputElement
-        && value != null) {
-      this.element.value = value;
-    }
-  }
 }
+
